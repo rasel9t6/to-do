@@ -12,7 +12,10 @@ function App() {
     return maxId + 1;
   };
   function handleAddTask(text) {
-    if (text === '') return;
+
+    // নিচের if কনডিশনে ইনপুট ফিল্ড খালি থাকলে নতুন টাস্ক অবজেক্ট ক্রিয়েট করার পূর্বেই কনডিশন চেক করে রিটার্ন করা হয়েছে।
+    
+    if (text === '') return; 
     setTasks([
       ...tasks,
       {
