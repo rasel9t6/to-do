@@ -9,6 +9,7 @@ const Task = ({ task, onChangeTask, onDelete }) => {
         <input
           className='bg-slate-200 p-1 rounded-sm mr-2'
           value={task.text}
+          autoFocus
           onChange={(e) =>
             onChangeTask({
               ...task,

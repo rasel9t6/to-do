@@ -12,6 +12,7 @@ function App() {
     return maxId + 1;
   };
   function handleAddTask(text) {
+    if (text === '') return;
     setTasks([
       ...tasks,
       {
