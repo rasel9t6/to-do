@@ -2,9 +2,10 @@ import './App.css';
 import AddTask from './components/AddTask';
 import TaskList from './components/TaskList';
 import { initialTasks } from './data/data.js';
-import { useState } from 'react';
+import { useReducer } from 'react';
+import taskReducer from './reducers/taskReducer.js';
 function App() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, dispatch] = useReducer(taskReducer, initialTasks);
   const getNextId = (data) => {
     const maxId = data.reduce((prev, curr) =>
       prev && prev.id > curr.id ? prev.id : curr.id
@@ -12,32 +13,24 @@ function App() {
     return maxId + 1;
   };
   function handleAddTask(text) {
-
-    // নিচের if কনডিশনে ইনপুট ফিল্ড খালি থাকলে নতুন টাস্ক অবজেক্ট ক্রিয়েট করার পূর্বেই কনডিশন চেক করে রিটার্ন করা হয়েছে।
-    
-    if (text === '') return; 
-    setTasks([
-      ...tasks,
-      {
-        id: getNextId,
-        text: text,
-        done: false,
-      },
-    ]);
+    if (text === '') return;
+    dispatch({
+      type: 'added',
+      text,
+      id: getNextId(tasks),
+    });
   }
   function handleEditTask(task) {
-    setTasks(
-      tasks.map((t) => {
-        if (t.id === task.id) {
-          return task;
-        } else {
-          return t;
-        }
-      })
-    );
+    dispatch({
+      type: 'edited',
+      task,
+    });
   }
   function handleDeleteTask(taskId) {
-    setTasks(tasks.filter((t) => t.id !== taskId));
+    dispatch({
+      type: 'deleted',
+      id: taskId,
+    });
   }
   return (
     <>
